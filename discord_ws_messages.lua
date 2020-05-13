@@ -1,10 +1,12 @@
 local os = require "os"
+local env = require "env"
+
 local discord_ws_messages = {}
 
 discord_ws_messages.identity = {
     op = 2,
     d = {
-        token = "NzA5Mzg4MTIzNTE5NDUxMjI2.XrqjhA.tu1NuP-YhhZpCXRTlYYe6xerdhs",
+        token = env.BOT_TOKEN,
         properties = {
             ["$os"] = "linux",
             ["$browser"] = "disco",
