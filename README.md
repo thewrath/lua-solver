@@ -5,6 +5,7 @@ Lua-solver is a Discord bot capable of interpreting the Lua code you send to it.
 ## How to use
 Simply send a message mentioning the bot with lua code between 6 backquotes :
 
+![example](https://raw.githubusercontent.com/thewrath/lua-solver/master/assets/example.PNG)
 
 ## How to install
 Firstly, create bot with [Discord developer portal](https://discord.com/developers/applications).
