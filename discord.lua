@@ -168,10 +168,10 @@ function Discord:on_guild_create(payload)
 end
 
 function Discord:on_guild_message_create(payload)
+    print(json.encode(payload.d))
     -- check if the message is for the bot
-    if #payload.d.mentions > 0 and payload.d.mentions[1].bot == true and payload.d.mentions[1].username == "lua-solver" then
+    if #payload.d.mentions > 0 and payload.d.mentions[1].bot == true and payload.d.mentions[1].id == env.BOT_CLIENT_ID then
         -- check if the message is a command
-        print(payload.d.content)
         local command_words = {}
         for word in payload.d.content:gmatch("%w+") do table.insert(command_words, word) end
         if self.commands_mapping[command_words[2]] ~= nil then
@@ -181,12 +181,12 @@ function Discord:on_guild_message_create(payload)
             if code_to_compute ~= nil then
                 local ok, proc = self.run_code(code_to_compute)
                 if ok and proc ~= nil and proc ~= "" then
-                    self:send_message(payload.d.channel_id, proc)
+                    self:send_message(payload.d.channel_id,"<@!"..payload.d.author.id.."> here is your result : ```shell\n" .. proc.."```")
                 else
-                    self:send_message(payload.d.channel_id, ":robot: Mmmmh, you have error in your code, normal your not a robot !")
+                    self:send_message(payload.d.channel_id, "<@!"..payload.d.author.id.."> Mmmmh, you have error in your code, normal your not a robot !")
                 end
             else
-                self:send_message(payload.d.channel_id, ":robot: Bip boops, I can't understand your request, please send valid Lua code.")
+                self:send_message(payload.d.channel_id, "<@!"..payload.d.author.id.."> Bip boops, I can't understand your request, please send valid Lua code.")
             end
         end
     end
@@ -195,11 +195,13 @@ end
 -- COMMAND EVENTS
 function Discord:on_example_command(payload)
     self:send_message(payload.d.channel_id, 
-[[
-:robot: Here it's an example on how to tell me to compute Lua Code :
+"<@!"..payload.d.author.id..">"..[[
+ Here it's an example on how to tell me to compute Lua Code :
 <@!709388123519451226> ```lua
 return "Hello World !"```
-the result : 
+the result : ```shell
+    Hello World !
+```
 ]]
     )
 end
