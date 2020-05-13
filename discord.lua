@@ -23,13 +23,13 @@ local Discord = {
         [10] = function(self, payload) self:on_connect(payload) end,
         [0] = function(self, payload) self:on_guild_event(payload) end
     },
-    guild_events_mapping = {           -- guild related events function mapping
+    guild_events_mapping = {        -- guild related events function mapping
         ["READY"] = function(self, payload) self:on_guild_ready(payload) end,
         ["GUILD_CREATE"] = function(self, payload) self:on_guild_create(payload) end,
         ["MESSAGE_CREATE"] = function(self, payload) self:on_guild_message_create(payload) end
     },
-    commands_mapping = {
-
+    commands_mapping = {            -- commands mapping
+        ["example"] = function(self, payload) self:on_example_command(payload) end
     }
 }
 
@@ -170,20 +170,38 @@ end
 function Discord:on_guild_message_create(payload)
     -- check if the message is for the bot
     if #payload.d.mentions > 0 and payload.d.mentions[1].bot == true and payload.d.mentions[1].username == "lua-solver" then
+        -- check if the message is a command
         print(payload.d.content)
-        local code_to_compute = self.get_lua_code(payload.d.content) 
-        if code_to_compute ~= nil then
-            local ok, proc = self.run_code(code_to_compute)
-            if ok and proc ~= nil and proc ~= "" then
-                self:send_message(payload.d.channel_id, proc)
-            else
-                self:send_message(payload.d.channel_id, "Mmmmh, you have error in your code, normal your not a robot !")
-            end
+        local command_words = {}
+        for word in payload.d.content:gmatch("%w+") do table.insert(command_words, word) end
+        if self.commands_mapping[command_words[2]] ~= nil then
+            self.commands_mapping[command_words[2]](self, payload)
         else
-            self:send_message(payload.d.channel_id, "Bip boops, I can't understand your request, please send valid Lua code.")
+            local code_to_compute = self.get_lua_code(payload.d.content) 
+            if code_to_compute ~= nil then
+                local ok, proc = self.run_code(code_to_compute)
+                if ok and proc ~= nil and proc ~= "" then
+                    self:send_message(payload.d.channel_id, proc)
+                else
+                    self:send_message(payload.d.channel_id, ":robot: Mmmmh, you have error in your code, normal your not a robot !")
+                end
+            else
+                self:send_message(payload.d.channel_id, ":robot: Bip boops, I can't understand your request, please send valid Lua code.")
+            end
         end
-        
     end
+end
+
+-- COMMAND EVENTS
+function Discord:on_example_command(payload)
+    self:send_message(payload.d.channel_id, 
+[[
+:robot: Here it's an example on how to tell me to compute Lua Code :
+<@!709388123519451226> ```lua
+return "Hello World !"```
+the result : 
+]]
+    )
 end
 
 function Discord:new(o)
