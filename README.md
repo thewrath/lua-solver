@@ -1,4 +1,5 @@
 # Lua-Solver
+![example](https://raw.githubusercontent.com/thewrath/lua-solver/master/assets/bot.png)
 ## Discord lua interpreter
 Lua-solver is a Discord bot capable of interpreting the Lua code you send to it.
 
@@ -18,7 +19,8 @@ Clone this repository, add ```env.lua``` file with this content :
 return {
     DISCORD_GATEWAY_URI = "wss://gateway.discord.gg/?v=6&encoding=json",
     DISCORD_API_URL = "https://discordapp.com/api",
-    BOT_TOKEN = "xxxxxxxxxxxxxxxxx.xxxxxxxxxxxxxxxxxxxxx",
+    BOT_TOKEN = "your-bot-token",
+    BOT_CLIENT_ID = "your-bot-client-id"
 }
 ```
 Now you can launch the bot with ```lua main.lua```
