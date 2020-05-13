@@ -1,5 +1,5 @@
+![example](https://raw.githubusercontent.com/thewrath/lua-solver/master/assets/bot-mini.png)
 # Lua-Solver
-![example](https://raw.githubusercontent.com/thewrath/lua-solver/master/assets/bot.png)
 ## Discord lua interpreter
 Lua-solver is a Discord bot capable of interpreting the Lua code you send to it.
 
