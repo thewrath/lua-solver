@@ -22,6 +22,13 @@ return {
 ```
 Now you can launch the bot with ```lua main.lua```
 
+## TODO
+
+- Add commands (help, library, ...)
+- Return print call (display like in lua interpreter)
+- Return error message
+- Create special file to store discord message
+
 ## Thank to
 
 - [cqueue](http://25thandclement.com/~william/projects/cqueues.html#source)
